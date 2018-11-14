@@ -138,12 +138,16 @@ public class PlanetasService {
      * Remove o planeta com o id especificado
      * 
      * @param id Id do planeta
+     * @throws PlanetaNotFoundException
      */
-    public void remover(String id) {
+    public void remover(String id) throws PlanetaNotFoundException {
         Planeta p = planetaRepository.findOne(id);
-        if (p != null) {
-            planetaRepository.delete(p);
+        if (p == null) {
+            PlanetaNotFoundException ex = new PlanetaNotFoundException();
+            ex.setId(id);
+            throw ex;
         }
+        planetaRepository.delete(p);
     }
 
     public Integer quantidadeFilmesPorId(String id) throws URISyntaxException, PlanetaNotFoundException {

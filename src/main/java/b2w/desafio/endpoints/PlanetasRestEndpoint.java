@@ -83,7 +83,7 @@ public class PlanetasRestEndpoint {
     }
 
     @DeleteMapping(value="/{id}")
-    public void removerPlaneta(@PathVariable String id) {
+    public void removerPlaneta(@PathVariable String id) throws PlanetaNotFoundException {
         planetasService.remover(id);
     }
 

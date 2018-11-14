@@ -197,15 +197,17 @@ public class PlanetasServiceTest extends BaseTest {
     }
 
     @Test
-    public void teste_remover_planeta_chama_metodo_findOne_no_repositorio() {
+    public void teste_remover_planeta() throws PlanetaNotFoundException {
         Planeta p = getRndPlaneta();
         p.setId("id_do_p");
 
         // Teste 01 - O planeta não existe ainda, a busca por id retorna nulo
         when(mockPlanetaRepository.findOne(anyString())).thenReturn(null);
 
-        service.remover(p.getId());
-
+        assertThatExceptionOfType(PlanetaNotFoundException.class).isThrownBy(
+            ()->service.remover(p.getId())
+        ).withMessageContaining(p.getId());
+        
         verify(mockPlanetaRepository, times(1)).findOne(p.getId());
         verify(mockPlanetaRepository, never()).delete(any(Planeta.class));
 
